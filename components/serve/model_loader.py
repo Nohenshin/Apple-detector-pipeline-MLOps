@@ -1,3 +1,6 @@
+%%writefile components/serve/model_loader.py
+import sys
+sys.path.insert(0, '/content/Apple-detector-pipeline-MLOps')
 import torch
 from common.model_utils import get_model
 
@@ -6,7 +9,10 @@ _device = None
 
 def load_model(model_path, device=None):
     global _model, _device
-    _device = device or torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    if device is None:
+        _device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    else:
+        _device = device
     _model = get_model(num_classes=3, pretrained=False)
     _model.load_state_dict(torch.load(model_path, map_location=_device))
     _model.to(_device).eval()
@@ -17,7 +23,8 @@ def predict(image_tensor, score_threshold=0.5):
     if _model is None:
         raise RuntimeError('Model not loaded')
     with torch.no_grad():
-        pred = _model([image_tensor.to(_device)])[0]
+        input_batch = image_tensor.unsqueeze(0).to(_device)
+        pred = _model(input_batch)[0]
     mask = pred['scores'] > score_threshold
     return {
         'boxes': pred['boxes'][mask].cpu().numpy().tolist(),

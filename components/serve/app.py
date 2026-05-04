@@ -1,16 +1,14 @@
-# -*- coding: utf-8 -*-
-# components/serve/app.py
+%%writefile components/serve/app.py
+import sys
+import os
+sys.path.insert(0, '/content/Apple-detector-pipeline-MLOps')
+sys.path.insert(0, '/content/Apple-detector-pipeline-MLOps/components/serve')  # Thêm dòng này
 
 import io
 import argparse
 from flask import Flask, request, jsonify
 from PIL import Image
 import torchvision.transforms as T
-import sys
-import os
-
-# Đảm bảo import đúng khi chạy từ bất kỳ thư mục nào
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import model_loader
 
 app = Flask(__name__)
