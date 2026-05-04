@@ -50,7 +50,7 @@ def main():
     model = get_model(num_classes=3, pretrained=True)
     model.to(device)
     optimizer = torch.optim.SGD(model.parameters(), lr=args.lr, momentum=0.9, weight_decay=0.0005)
-    scheduler = ReduceLROnPlateau(optimizer, mode='max', factor=0.1, patience=3, verbose=True)
+    scheduler = ReduceLROnPlateau(optimizer, mode='max', factor=0.1, patience=3)
 
     best_val_map = 0.0
     early_stop_counter = 0
