@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
 # common/dataset.py
-# Lớp VOCDataset cho cấu trúc thư mục:
-#   root/
-#     images/   (chứa các file .jpg)
-#     labels/   (chứa các file .xml cùng tên)
 
 import os
 import torch
@@ -12,41 +8,25 @@ import xml.etree.ElementTree as ET
 
 class VOCDataset(torch.utils.data.Dataset):
     def __init__(self, root_dir, transforms=None, class_dict=None):
-        """
-        Args:
-            root_dir (str): Đường dẫn đến thư mục chứa images/ và labels/
-                            Ví dụ: './data/train'
-            transforms (callable, optional): Phép biến đổi ảnh (vd: ToTensor)
-            class_dict (dict, optional): Ánh xạ tên lớp -> số nhãn
-        """
         self.root_dir = root_dir
         self.transforms = transforms
-        if class_dict is None:
-            self.class_dict = {"Green Apple": 1, "Red Apple": 2}
-        else:
-            self.class_dict = class_dict
+        self.class_dict = class_dict or {"Green Apple": 1, "Red Apple": 2}
 
-        # Đường dẫn đến thư mục con
-        self.images_dir = os.path.join(root_dir, 'images')
-        self.labels_dir = os.path.join(root_dir, 'labels')
+        # Ảnh và XML nằm chung thư mục root_dir
+        self.images_dir = root_dir  # Sửa: bỏ os.path.join(root_dir, 'images')
+        self.labels_dir = root_dir  # Sửa: bỏ os.path.join(root_dir, 'labels')
 
-        # Lấy danh sách tất cả file .jpg trong images_dir
-        self.image_files = [f for f in os.listdir(self.images_dir) if f.endswith('.jpg')]
-        self.image_files.sort()  # Đảm bảo thứ tự nhất quán
+        self.image_files = sorted([f for f in os.listdir(root_dir) if f.endswith('.jpg')])
 
     def __getitem__(self, idx):
-        # Lấy tên file ảnh
         img_file = self.image_files[idx]
-        # Suy ra file xml tương ứng (đổi .jpg -> .xml)
         xml_file = img_file.replace('.jpg', '.xml')
 
         img_path = os.path.join(self.images_dir, img_file)
         xml_path = os.path.join(self.labels_dir, xml_file)
 
-        # Đọc ảnh
         img = Image.open(img_path).convert('RGB')
 
-        # Đọc file XML nếu tồn tại
         boxes = []
         labels = []
         if os.path.exists(xml_path):
@@ -63,9 +43,13 @@ class VOCDataset(torch.utils.data.Dataset):
                 boxes.append([xmin, ymin, xmax, ymax])
                 labels.append(label)
 
-        # Chuyển sang tensor
-        boxes = torch.as_tensor(boxes, dtype=torch.float32)
-        labels = torch.as_tensor(labels, dtype=torch.int64)
+        # Xử lý trường hợp không có box nào (ảnh không có annotation)
+        if len(boxes) == 0:
+            boxes = torch.zeros((0, 4), dtype=torch.float32)  # Sửa: tránh lỗi reshape
+            labels = torch.zeros((0,), dtype=torch.int64)
+        else:
+            boxes = torch.as_tensor(boxes, dtype=torch.float32)
+            labels = torch.as_tensor(labels, dtype=torch.int64)
 
         target = {
             'boxes': boxes,
