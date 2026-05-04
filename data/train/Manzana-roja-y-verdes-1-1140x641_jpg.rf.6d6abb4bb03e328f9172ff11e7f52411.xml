@@ -1,0 +1,42 @@
+<annotation>
+	<folder></folder>
+	<filename>Manzana-roja-y-verdes-1-1140x641_jpg.rf.6d6abb4bb03e328f9172ff11e7f52411.jpg</filename>
+	<path>Manzana-roja-y-verdes-1-1140x641_jpg.rf.6d6abb4bb03e328f9172ff11e7f52411.jpg</path>
+	<source>
+		<database>roboflow.com</database>
+	</source>
+	<size>
+		<width>640</width>
+		<height>640</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>Red Apple</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<occluded>0</occluded>
+		<bndbox>
+			<xmin>105</xmin>
+			<xmax>313</xmax>
+			<ymin>84</ymin>
+			<ymax>442</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>Green Apple</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<occluded>0</occluded>
+		<bndbox>
+			<xmin>330</xmin>
+			<xmax>525</xmax>
+			<ymin>77</ymin>
+			<ymax>426</ymax>
+		</bndbox>
+	</object>
+	<metadata>
+	</metadata>
+</annotation>

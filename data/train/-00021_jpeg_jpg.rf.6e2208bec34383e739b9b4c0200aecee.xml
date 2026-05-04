@@ -1,0 +1,29 @@
+<annotation>
+	<folder></folder>
+	<filename>-00021_jpeg_jpg.rf.6e2208bec34383e739b9b4c0200aecee.jpg</filename>
+	<path>-00021_jpeg_jpg.rf.6e2208bec34383e739b9b4c0200aecee.jpg</path>
+	<source>
+		<database>roboflow.com</database>
+	</source>
+	<size>
+		<width>640</width>
+		<height>640</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>Green Apple</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<occluded>0</occluded>
+		<bndbox>
+			<xmin>69</xmin>
+			<xmax>576</xmax>
+			<ymin>43</ymin>
+			<ymax>594</ymax>
+		</bndbox>
+	</object>
+	<metadata>
+	</metadata>
+</annotation>

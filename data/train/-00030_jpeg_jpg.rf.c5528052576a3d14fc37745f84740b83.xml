@@ -1,0 +1,29 @@
+<annotation>
+	<folder></folder>
+	<filename>-00030_jpeg_jpg.rf.c5528052576a3d14fc37745f84740b83.jpg</filename>
+	<path>-00030_jpeg_jpg.rf.c5528052576a3d14fc37745f84740b83.jpg</path>
+	<source>
+		<database>roboflow.com</database>
+	</source>
+	<size>
+		<width>640</width>
+		<height>640</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>Red Apple</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<occluded>0</occluded>
+		<bndbox>
+			<xmin>69</xmin>
+			<xmax>574</xmax>
+			<ymin>58</ymin>
+			<ymax>579</ymax>
+		</bndbox>
+	</object>
+	<metadata>
+	</metadata>
+</annotation>

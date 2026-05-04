@@ -1,0 +1,68 @@
+<annotation>
+	<folder></folder>
+	<filename>america_digital_jugo_de_manzana_batidos_2020-1140x570_jpg.rf.961fa9cddbe229820b3e118916eb8813.jpg</filename>
+	<path>america_digital_jugo_de_manzana_batidos_2020-1140x570_jpg.rf.961fa9cddbe229820b3e118916eb8813.jpg</path>
+	<source>
+		<database>roboflow.com</database>
+	</source>
+	<size>
+		<width>640</width>
+		<height>640</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>Red Apple</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<occluded>0</occluded>
+		<bndbox>
+			<xmin>47</xmin>
+			<xmax>217</xmax>
+			<ymin>276</ymin>
+			<ymax>576</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>Red Apple</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<occluded>0</occluded>
+		<bndbox>
+			<xmin>124</xmin>
+			<xmax>295</xmax>
+			<ymin>23</ymin>
+			<ymax>287</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>Red Apple</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<occluded>0</occluded>
+		<bndbox>
+			<xmin>3</xmin>
+			<xmax>152</xmax>
+			<ymin>159</ymin>
+			<ymax>457</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>Green Apple</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<occluded>0</occluded>
+		<bndbox>
+			<xmin>5</xmin>
+			<xmax>293</xmax>
+			<ymin>160</ymin>
+			<ymax>488</ymax>
+		</bndbox>
+	</object>
+	<metadata>
+	</metadata>
+</annotation>
