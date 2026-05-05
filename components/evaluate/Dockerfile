@@ -7,5 +7,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY common /app/common
 COPY components/evaluate/evaluate.py .
+COPY data/ /app/data/
 
 ENTRYPOINT ["python", "evaluate.py"]

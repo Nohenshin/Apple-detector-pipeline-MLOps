@@ -7,5 +7,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY common /app/common
 COPY components/train/train.py .
+COPY data/ /app/data/
 
 ENTRYPOINT ["python", "train.py"]

@@ -13,7 +13,7 @@ def apple_pipeline(
 ):
     train = dsl.ContainerOp(
         name='train',
-        image='yourregistry.azurecr.io/apple-train:v1',  # thay bằng registry thật
+        image='shigoruya.azurecr.io/apple-train:v2',  # thay bằng registry thật
         arguments=[
             '--data_dir', data_dir,
             '--epochs', str(epochs),
@@ -23,9 +23,10 @@ def apple_pipeline(
         ],
         file_outputs={'model': '/output/best_model.pth'}
     )
+    train.set_gpu_limit(1)   
     evaluate = dsl.ContainerOp(
         name='evaluate',
-        image='yourregistry.azurecr.io/apple-evaluate:v1',
+        image='shigoruya.azurecr.io/apple-evaluate:v2',
         arguments=[
             '--data_dir', data_dir,
             '--model_path', train.outputs['model'],

@@ -1,0 +1,87 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: apple-detection-pipeline-
+  annotations: {pipelines.kubeflow.org/kfp_sdk_version: 1.8.22, pipelines.kubeflow.org/pipeline_compilation_time: '2026-05-05T19:31:59.145329',
+    pipelines.kubeflow.org/pipeline_spec: '{"description": "Train and evaluate Faster
+      R-CNN on apple dataset", "inputs": [{"default": "/app/data", "name": "data_dir",
+      "optional": true, "type": "String"}, {"default": "10", "name": "epochs", "optional":
+      true, "type": "Integer"}, {"default": "2", "name": "batch_size", "optional":
+      true, "type": "Integer"}, {"default": "0.005", "name": "lr", "optional": true,
+      "type": "Float"}], "name": "Apple Detection Pipeline"}'}
+  labels: {pipelines.kubeflow.org/kfp_sdk_version: 1.8.22}
+spec:
+  entrypoint: apple-detection-pipeline
+  templates:
+  - name: apple-detection-pipeline
+    inputs:
+      parameters:
+      - {name: batch_size}
+      - {name: data_dir}
+      - {name: epochs}
+      - {name: lr}
+    dag:
+      tasks:
+      - name: evaluate
+        template: evaluate
+        dependencies: [train]
+        arguments:
+          parameters:
+          - {name: batch_size, value: '{{inputs.parameters.batch_size}}'}
+          - {name: data_dir, value: '{{inputs.parameters.data_dir}}'}
+          - {name: train-model, value: '{{tasks.train.outputs.parameters.train-model}}'}
+      - name: train
+        template: train
+        arguments:
+          parameters:
+          - {name: batch_size, value: '{{inputs.parameters.batch_size}}'}
+          - {name: data_dir, value: '{{inputs.parameters.data_dir}}'}
+          - {name: epochs, value: '{{inputs.parameters.epochs}}'}
+          - {name: lr, value: '{{inputs.parameters.lr}}'}
+  - name: evaluate
+    container:
+      args: [--data_dir, '{{inputs.parameters.data_dir}}', --model_path, '{{inputs.parameters.train-model}}',
+        --batch_size, '{{inputs.parameters.batch_size}}']
+      image: shigoruya.azurecr.io/apple-evaluate:v2
+    inputs:
+      parameters:
+      - {name: batch_size}
+      - {name: data_dir}
+      - {name: train-model}
+    metadata:
+      labels:
+        pipelines.kubeflow.org/kfp_sdk_version: 1.8.22
+        pipelines.kubeflow.org/pipeline-sdk-type: kfp
+        pipelines.kubeflow.org/enable_caching: "true"
+  - name: train
+    container:
+      args: [--data_dir, '{{inputs.parameters.data_dir}}', --epochs, '{{inputs.parameters.epochs}}',
+        --batch_size, '{{inputs.parameters.batch_size}}', --lr, '{{inputs.parameters.lr}}',
+        --output_dir, /output]
+      image: shigoruya.azurecr.io/apple-train:v2
+      resources:
+        limits: {nvidia.com/gpu: 1}
+    inputs:
+      parameters:
+      - {name: batch_size}
+      - {name: data_dir}
+      - {name: epochs}
+      - {name: lr}
+    outputs:
+      parameters:
+      - name: train-model
+        valueFrom: {path: /output/best_model.pth}
+      artifacts:
+      - {name: train-model, path: /output/best_model.pth}
+    metadata:
+      labels:
+        pipelines.kubeflow.org/kfp_sdk_version: 1.8.22
+        pipelines.kubeflow.org/pipeline-sdk-type: kfp
+        pipelines.kubeflow.org/enable_caching: "true"
+  arguments:
+    parameters:
+    - {name: data_dir, value: /app/data}
+    - {name: epochs, value: '10'}
+    - {name: batch_size, value: '2'}
+    - {name: lr, value: '0.005'}
+  serviceAccountName: pipeline-runner
