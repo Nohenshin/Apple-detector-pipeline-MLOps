@@ -1,8 +1,7 @@
 apple-detector-pipeline/
 ├── common/
-│   ├── __init__.py
-│   ├── dataset.py
-│   └── model_utils.py
+│   ├── dataset.py          # Lớp VOCDataset (đọc ảnh + xml)
+│   └── model_utils.py      # Hàm tạo mô hình Faster R-CNN
 ├── components/
 │   ├── train/
 │   │   ├── Dockerfile
@@ -15,10 +14,12 @@ apple-detector-pipeline/
 │   └── serve/
 │       ├── Dockerfile
 │       ├── requirements.txt
-│       ├── app.py
+│       ├── app.py          # Flask API
 │       └── model_loader.py
 ├── pipeline/
-│   └── pipeline.py
-├── data/                 
-├── .gitignore
-└── README.md
+│   └── pipeline.py          # Định nghĩa workflow Kubeflow
+├── data/
+│   ├── train/ (images + xml)
+│   ├── valid/
+│   └── test/
+└── .github/workflows/      # (tuỳ chọn) CI/CD
